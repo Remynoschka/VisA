@@ -8,7 +8,13 @@
 // -----------------------------------------------------------------------
 function v = ZhangConstraintTerm(H, i, j)
   // A modifier!
-  v = rand(1, 6);
+  a = H(1,i)*H(1,j);
+  b = H(1,i)*H(2,j)+H(2,i)*H(1,j);
+  c = H(2,i)*H(2,j);
+  d = H(3,i)*H(1,j)+H(1,i)*H(3,j);
+  e = H(3,i)*H(2,j)+H(2,i)*H(3,j);
+  f = H(3,i)*H(3,j);
+  v = [a,b,c,d,e,f];
 endfunction
 
 // -----------------------------------------------------------------------
@@ -29,8 +35,17 @@ endfunction
 /// \return matrice 3*3 des parametres intrinseques.
 // -----------------------------------------------------------------------
 function A = IntrinsicMatrix(b)
-  // A modifier!
-  A = rand(3, 3);
+  _v0 = (b(2)*b(4)-b(1)*b(5))/(b(1)*b(3)-b(2)*b(2));
+  _lambda = b(6)-(b(4)*b(4)+_v0*(b(2)*b(4)-b(1)*b(5)))/b(1);
+  _alpha = sqrt(_lambda/b(1));
+  _beta = sqrt((_lambda*b(1))/(b(1)*b(3)-b(2)*b(2)));
+  _gamma = -(b(2)*_alpha*_alpha*_beta/_lambda);
+  _u0 = _gamma*_v0/_beta - b(4)*_alpha*_alpha/_lambda; 
+  
+  A =[_alpha,_gamma,_u0;
+      0,_beta, _v0;
+      0,0,1];
+  
 endfunction
 
 // -----------------------------------------------------------------------

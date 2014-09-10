@@ -46,7 +46,9 @@ end
 // Calculer le vecteur b
 b = SmallestRightSingular(V);
 // Estimation de la matrice intrinseque
+//A compléter
 A = IntrinsicMatrix(b);
+
 iA = inv(A);
 // Estimations des matrices extrinseques
 E = zeros(3, 4, ni);
