@@ -54,5 +54,26 @@ Les valeurs obtenues par povray et celles calculées sont sensiblements égales 
 
 PARTIE II
 
-1. 
+1. Nous avons calculée la matrice extrinsèque avec le code suivant :
+  lambda = 1/abs(iA*H(:,1));
+  lambda = lambda(1);
+  r1 = lambda * iA * H(:,1);
+  r2 = lambda * iA * H(:,2);
+  r3 = CrossProduct(r1,r2);
+  t = lambda * iA * H(:,3);
+
+ E  = [r1,r2,r3,t];
+
+2. Les données fournies sont :
+Translation = (0, 0, 10000), Rotation = (0, 0, 0)
+
+Et les données que nous avons calculées sont : 
+
+1.           0.0009052  - 0.0006686  - 48.811577  
+0.0000377    0.9982951    0.0015769    54.73332   
+0.0006696  - 0.0015763    0.9982950    9854.3628  
+
+Les valeurs sont proches de celles fournies, en effet, les colonnes de cette matrice sont : rotation 1, rotation 2 et rotation 3 ainsi que translation.
+
+4.
 

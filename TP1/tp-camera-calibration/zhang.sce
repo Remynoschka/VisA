@@ -17,6 +17,7 @@
 // -----------------------------------------------------------------------
 
 // Definition des fonctions utilitaires
+clear;
 exec ('glue.sci', -1);
 exec ('prenom-nom.sci', -1);
 // Nombre d'images
