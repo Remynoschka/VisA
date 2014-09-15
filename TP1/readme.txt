@@ -2,7 +2,31 @@ FRANCOIS Remy
 
 PARTIE I
 
-1. * A faire tranquillement avec les autres *
+1. Dans sont rapport, Zhang commence par trouver la matrice d'homographie, puis determine la matrice intrinseque et enfin la matrice extrinseque.
+Dans le code fourni, ces indications sont verifiees par le code suivant :
+
+----------------Homographie
+H = zeros(3, 3, ni);
+m = zeros(3, np, ni);
+for i = 1:ni
+  // Lire les points de l'image
+  m(1:2,:,i) = read('points-'+string(i)+'.txt', -1, 2)';
+  m(3,:,i) = ones(1, np);
+  // Estimer l'homographie entre la mire et l' image
+  H(:,:,i) = ZhangHomography(M(sansZ,:), m(:,:,i));
+  // Ajouter deux lignes de contraintes dans V
+  V = [V; ZhangConstraints(H(:,:,i))];
+end
+
+----------------Intrinseque
+A = IntrinsicMatrix(b);
+
+----------------Extrinseque
+E = zeros(3, 4, ni);
+for i = 1:ni
+  E(:,:,i) = ExtrinsicMatrix(iA, H(:,:,i));
+end
+
 
 2.Le rapport de Zhang indique que les contraines sont faite de la manière suivante :
 vij=    [hi1*hj1;
