@@ -22,6 +22,10 @@ end
 A = IntrinsicMatrix(b);
 
 ----------------Extrinseque
+E = zeros(3, 4, ni);
+for i = 1:ni
+  E(:,:,i) = ExtrinsicMatrix(iA, H(:,:,i));
+end
 
 
 2.Le rapport de Zhang indique que les contraines sont faite de la manière suivante :

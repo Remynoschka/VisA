@@ -73,7 +73,7 @@ Les valeurs obtenues par povray sont :
  0.000000   3546.099291   240.000000
  0.000000   0.000000   1.000000
 
-Les valeurs obtenues par povray et celles calculées sont sensiblements égales (différence dûe à *a trouver*). On peut donc dire que les valeurs calculées sont bonnes.
+Les valeurs obtenues par povray et celles calculées sont sensiblements égales. On peut donc dire que les valeurs calculées sont bonnes.
 
 
 PARTIE II
