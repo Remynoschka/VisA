@@ -69,7 +69,7 @@ Mat iviVectorProductMatrix(const Mat& v) {
                           v.at<double>(2), 0, -v.at<double>(0),
                           -v.at<double>(1), v.at<double>(0), 0);
 
-    // Retour de la matrice
+
     return mVectorProduct;
 }
 
@@ -111,7 +111,17 @@ Mat iviDistancesMatrix(const Mat& m2DLeftCorners,
                        const Mat& mFundamental) {
     // A modifier !
     Mat mDistances = Mat();
-    // Retour de la matrice fondamentale
+
+    Mat epipolaireLeft = mFundamental*m2DLeftCorners;
+    Mat epipolaireRight = mFundamental*m2DRightCorners;
+
+
+    for (int i = 0 ; i < m2DLeftCorners.size() ; i++){
+       for (int j = 0 ; j < m2DRightCorners.size() ; j++){
+             Mat epipolaireLeft = mFundamental * m2DLeftCorners.at(i);
+        }
+    }
+
     return mDistances;
 }
 
