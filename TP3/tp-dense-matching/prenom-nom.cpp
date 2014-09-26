@@ -115,7 +115,22 @@ Mat iviComputeLeftSSDCost(const Mat& mLeftGray,
                           int iShift,
                           int iWindowHalfSize) {
 Mat mLeftSSDCost(mLeftGray.size(), CV_64F);
-    // A completer!
+double *vals;
+    // Pour chaque px de l'image
+    for (int x = iWindowHalfSize ; x < mLeftGray.size().height-iWindowHalfSize; x++){
+        vals = mLeftSSDCost.ptr<double>(x);
+        for (int y = iWindowHalfSize; y < mLeftGray.size().width-iWindowHalfSize; y++) {
+            // Pour tout le voisinage
+            for (int i = -iWindowHalfSize; i < iWindowHalfSize; i++){
+                for (int j = -iWindowHalfSize; j < iWindowHalfSize; j++) {
+                    *vals += pow(mLeftGray.row(x + i).at<unsigned char>(y+j) - mRightGray.row(x + i).at<unsigned char>(y+j-iShift), 2.0);
+                }
+            }
+            vals++;
+        }
+    }
+
+
     return mLeftSSDCost;
 }
 
@@ -135,7 +150,59 @@ Mat iviRightDisparityMap(const Mat& mLeftGray,
                          int iMaxDisparity,
                          int iWindowHalfSize) {
 Mat mRightDisparityMap(mLeftGray.size(), CV_8U);
-    // A completer!
+// Images pour les resultats intermediaires
+Mat mSSD(mLeftGray.size(), CV_64F);
+Mat mMinSSD(mLeftGray.size(), CV_64F);
+double dMinSSD, *pdPtr1, *pdPtr2;
+unsigned char *pucDisparity;
+int iShift, iRow, iCol;
+
+    // Initialisation de l'image du minimum de SSD
+    dMinSSD = pow((double)(2 * iWindowHalfSize + 1), 2.0) * 255*255;
+    for (iRow = iWindowHalfSize;
+        iRow < mMinSSD.size().height - iWindowHalfSize;
+        iRow++) {
+        // Pointeur sur le debut de la ligne
+        pdPtr1 = mMinSSD.ptr<double>(iRow);
+        // Sauter la demi fenetre non utilisee
+        pdPtr1 += iWindowHalfSize;
+        // Remplir le reste de la ligne
+        for (iCol = iWindowHalfSize;
+            iCol < mMinSSD.size().width - iWindowHalfSize;
+            iCol++)
+                *pdPtr1++ = dMinSSD;
+    }
+    // Boucler pour tous les decalages possibles
+    for (iShift = 0; iShift < iMaxDisparity; iShift++) {
+        // Calculer le cout SSD pour ce decalage
+        mSSD = iviComputeRightSSDCost(mLeftGray, mRightGray,
+                                     iShift, iWindowHalfSize);
+        // Mettre a jour les valeurs minimales
+        for (iRow = iWindowHalfSize;
+            iRow < mMinSSD.size().height - iWindowHalfSize;
+            iRow++) {
+            // Pointeurs vers les debuts des lignes
+            pdPtr1 = mMinSSD.ptr<double>(iRow);
+            pdPtr2 = mSSD.ptr<double>(iRow);
+            pucDisparity = mRightDisparityMap.ptr<unsigned char>(iRow);
+            // Sauter la demi fenetre non utilisee
+            pdPtr1 += iWindowHalfSize;
+            pdPtr2 += iWindowHalfSize;
+            pucDisparity += iWindowHalfSize;
+            // Comparer sur le reste de la ligne
+            for (iCol = iWindowHalfSize;
+                iCol < mMinSSD.size().width - iWindowHalfSize;
+                iCol++) {
+                // SSD plus faible que le minimum precedent
+                if (*pdPtr1 > *pdPtr2) {
+                    *pucDisparity = (unsigned char)iShift;
+                    *pdPtr1 = *pdPtr2;
+                }
+                // Pixels suivants
+                pdPtr1++; pdPtr2++; pucDisparity++;
+            }
+        }
+    }
     return mRightDisparityMap;
 }
 
@@ -155,7 +222,21 @@ Mat iviComputeRightSSDCost(const Mat& mLeftGray,
                            int iShift,
                            int iWindowHalfSize) {
 Mat mRightSSDCost(mLeftGray.size(), CV_64F);
-    // A completer!
+double *vals;
+    // Pour chaque px de l'image
+    for (int x = iWindowHalfSize ; x < mRightGray.size().height-iWindowHalfSize; x++){
+        vals = mRightSSDCost.ptr<double>(x);
+        for (int y = iWindowHalfSize; y < mRightGray.size().width-iWindowHalfSize; y++) {
+            // Pour tout le voisinage
+            for (int i = -iWindowHalfSize; i < iWindowHalfSize; i++){
+                for (int j = -iWindowHalfSize; j < iWindowHalfSize; j++) {
+                    *vals += pow(mRightGray.row(x + i).at<unsigned char>(y+j) - mLeftGray.row(x + i).at<unsigned char>(y+j+iShift), 2.0);
+                }
+            }
+            vals++;
+        }
+    }
+
     return mRightSSDCost;
 }
 
