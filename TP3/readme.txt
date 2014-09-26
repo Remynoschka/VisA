@@ -1,0 +1,7 @@
+.raw().at(i)
+
+FRANCOIS Remy
+
+1. Donnees stockees :
+- mSSD :
+- mMinSSD :
