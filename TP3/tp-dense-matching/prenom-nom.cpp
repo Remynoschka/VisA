@@ -241,7 +241,7 @@ double *vals;
 }
 
 // -----------------------------------------------------------------------
-/// \brief Verifie la coherence des cartes gauche et froite.
+/// \brief Verifie la coherence des cartes gauche et droite.
 ///
 /// @param psLeftDisparity: carte gauche des disparites
 /// @param psRightDisparity: carte droite des disparites
@@ -253,6 +253,20 @@ Mat iviLeftRightConsistency(const Mat& mLeftDisparity,
                             const Mat& mRightDisparity,
                             Mat& mValidityMask) {
 Mat mDisparity(mLeftDisparity.size(), CV_8U);
-    // A completer!
+    for (int l = 0 ; l < mLeftDisparity.size().height ; l++){
+        for (int c = 0 ; c < mLeftDisparity.size().width ; c++ ){
+            double dispariteLeft = (double)mLeftDisparity.at<unsigned char>(l,c);
+            double dispariteLeftCorrespondant = (double)mRightDisparity.at<unsigned char>(l,c-dispariteLeft);
+
+            double dispariteRight = (double)mRightDisparity.at<unsigned char>(l,c);
+            double dispariteRightCorrespondant = (double)mLeftDisparity.at<unsigned char>(l,c-dispariteRight);
+
+            if (dispariteLeft != dispariteLeftCorrespondant || dispariteRight != dispariteRightCorrespondant){
+                mValidityMask.at<unsigned char>(l,c) = 255;
+            } else {
+                mDisparity.at<unsigned char>(l,c) = dispariteLeft;
+            }
+        }
+    }
     return mDisparity;
 }

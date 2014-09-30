@@ -7,10 +7,9 @@ PARTIE III
 1. Donnees stockees :
 - mSSD : 
 matrice qui fait la taille de l'image
-contient les couts calcules de l'image de gauche pour le decalage actuel.
+contient les (valeur de difference) calcules de l'image de gauche pour le decalage actuel. 
 - mMinSSD :
-matrice qui fait la taille de l'image * un truc (?)
-contient les valeurs minimales
+contient les valeurs minimales de disparités (valeur de decalage)
 
 2.
 Le pointeur qui permet d'acceder a l'image est calcule en partant 
@@ -19,6 +18,9 @@ la fenetre de correlation.
 
 
 -code c++
+Le code pour calculer est  *vals += pow(mLeftGray.row(x + i).at<unsigned char>(y+j) - mRightGray.row(x + i).at<unsigned char>(y+j-iShift), 2.0);
+voir formule dans le cours
 verif : blabla
 
 PARTIE II
+Quoi dire... xD
