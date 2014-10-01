@@ -259,12 +259,13 @@ Mat mDisparity(mLeftDisparity.size(), CV_8U);
             double dispariteLeftCorrespondant = (double)mRightDisparity.at<unsigned char>(l,c-dispariteLeft);
 
             double dispariteRight = (double)mRightDisparity.at<unsigned char>(l,c);
-            double dispariteRightCorrespondant = (double)mLeftDisparity.at<unsigned char>(l,c-dispariteRight);
+            double dispariteRightCorrespondant = (double)mLeftDisparity.at<unsigned char>(l,c+dispariteRight);
 
             if (dispariteLeft != dispariteLeftCorrespondant || dispariteRight != dispariteRightCorrespondant){
                 mValidityMask.at<unsigned char>(l,c) = 255;
             } else {
                 mDisparity.at<unsigned char>(l,c) = dispariteLeft;
+                mValidityMask.at<unsigned char>(l,c) = 0;
             }
         }
     }
