@@ -1,0 +1,26 @@
+// Date: 22/10/2014
+// Author: Remy FRANCOIS
+ 
+macro "RebuildFromSaturation" {
+
+// récupération du ID de l'image
+
+
+image = getImageID();
+
+run("Duplicate...", "title=[image_luminance_modif]");
+image_luminance_modif = getImageID();
+
+phi = getNumber ("quelle augmentation (absolue) de luminance",phi);
+
+setBatchMode(true);
+
+run("Color Transformer", "colour space=[HSB]");
+run("Image-Color-Split Channels");
+run("Process-Math-Add", "Value=25");
+run("Image-Color-Merge Channels", "Value=25");
+run("Color Transformer", "colour space=[RGB]");
+
+setBatchMode(false);
+
+}
