@@ -8,19 +8,20 @@ macro "RebuildFromSaturation" {
 
 image = getImageID();
 
-run("Duplicate...", "title=[image_luminance_modif]");
-image_luminance_modif = getImageID();
+run("Duplicate...", "title=image_augmentee");
 
-phi = getNumber ("quelle augmentation (absolue) de luminance",phi);
 
 setBatchMode(true);
 
-run("Color Transformer", "colour space=[HSB]");
-run("Image-Color-Split Channels");
-run("Process-Math-Add", "Value=25");
-run("Image-Color-Merge Channels", "Value=25");
-
+//selectWindow("image_augmentee (HSB)");
+run("Color Space Converter", "from=RGB to=HSB white=D65");
+run("Split Channels");
+selectWindow("image_augmentee (HSB) (green)");
+run("Multiply...", "value=1.250");
+run("Merge Channels...", "red=[image_augmentee (HSB) (red)] green=[image_augmentee (HSB) (green)] blue=[image_augmentee (HSB) (blue)] gray=*None*");
+run("Color Space Converter", "from=HSB to=RGB white=D65");
 
 setBatchMode(false);
 
 }
+

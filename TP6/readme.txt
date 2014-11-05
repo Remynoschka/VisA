@@ -41,8 +41,11 @@ On voit ici que les couleurs sur l'image avec la saturation faible sont plus com
 alors que sur celle d'origine, elles ont une distribution plus grande.
 
 Q4
-
+Voir code
+//mettre image q4_saturation augmentee + originale
+On multiplie par 1.25 la Saturation dans l'espace HSB
 Exercice 3
-
+//mettre image q1_teinte + originale
+on augmente de 50 la Teinte dans l'espace HSB
 
 (No Exo 4 :fete:)
