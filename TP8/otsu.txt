@@ -1,0 +1,104 @@
+// Une macro-squelette calculer OTSU.
+// Version: 0.1
+// Date: sept 2010
+// Author: L. Macaire
+ 
+macro "modification_saturation" {
+
+// recuperation du ID de l'image
+image = getImageID();
+
+// r�cup�ration de la taille W x H 
+W = getWidth();
+H = getHeight();
+
+run("Duplicate...", "title=binarisee");
+image_binaire = getImageID();
+
+getHistogram (level,histo,256);
+
+// affichage de l'histogramme
+for ( i =0 ; i<= 255; i++)
+	{
+	print ("histo[",level[i],"] =", histo[i]);
+	}
+
+
+// valeur initiale de omega1 mu1 omega2 mu2 omega3 mu3
+
+//omega = nb de px
+//somme = somme des valeurs
+//mu = valeur moy des px
+
+omega1 = 0;
+somme1 = 0;
+mu1 = 0;
+
+omega2 = 0;
+somme2 = 0;
+mu2 = 0;
+
+omega3 = 0;
+somme3 = 0;
+mu3 = 0;
+
+max_sigma_between = -1;
+
+seuil1 = 255;
+seuil2 = 255;
+
+for(t2 = 2; t2 <255; t2++) {
+	for(t1 = 0; t1 < t2-1; t1++) {
+		omega1 = 0;
+		somme1 = 0;
+		
+		omega2 = 0;
+		somme2 = 0;
+		
+		omega3 = 0;
+		somme3 = 0;
+		
+		// calcul des omegas
+		for(i=0; i<t1; i++) {
+			omega1 = omega1 + histo[i];
+			somme1 = somme1 + histo[i] * i;
+		}
+		for(i=t1; i<t2; i++) {
+			omega2 = omega2 + histo[i];
+			somme2 = somme2 + histo[i] * i;
+		}
+		for(i=t2; i<255; i++) {
+			omega3 = omega3 + histo[i];
+			somme3 = somme3 + histo[i] * i;
+		}
+		print ("t1=",t1,"t2=",t2,"omega1=",omega1,"somme1=",somme1,"omega2=",omega2,"somme2=",somme2);
+		
+		// si les classes sont pas vides
+		if (omega1 * omega2 * omega3 !=0) {
+			print ("cond verifiee");
+			mu1 = somme1/omega1;
+			mu2 = somme2/omega2;
+			mu3 = somme3/omega3;
+			
+			sigma_between1 = omega1 * omega2 *( mu1 - mu2) * ( mu1 - mu2);
+			sigma_between2 = omega2 * omega3 *( mu3 - mu2) * ( mu3 - mu2);
+			sigma_between3 = omega1 * omega3 *( mu1 - mu3) * ( mu1 - mu3);
+			
+			sigma_between = sigma_between1 + sigma_between2 + sigma_between3;
+			if (sigma_between > max_sigma_between) {
+				seuil1 = t1;
+				seuil2 = t2;
+				max_sigma_between = sigma_between;
+			}
+		}
+	}
+}
+selectImage(image_binaire);
+setThreshold(0,seuil1);
+setThreshold(seuil1,seuil2);
+
+print (max_sigma_between);
+print ("seuil1=",seuil1);
+print ("seuil2=",seuil2);
+run("Convert to Mask");
+}

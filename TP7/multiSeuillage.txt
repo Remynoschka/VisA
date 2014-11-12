@@ -1,10 +1,12 @@
 // Author: Remy FRANCOIS
 
 macro "multiSeuillage" {	
-	selectWindow("6_classes_RGB.tif");
+
+        run ("Duplicate...", "title=image");
+	selectWindow("image");
 	run("Split Channels");
 	// seuiller l'image rouge
-	selectWindow("6_classes_RGB.tif (red)");	
+	selectWindow("image (red)");	
 	getHistogram (level,histo,256);
 	// valeur initiale de omega1 mu1 omega2 mu2
 	omega1=0;
@@ -49,7 +51,7 @@ macro "multiSeuillage" {
 	print("Seuil rouge = ", seuilRouge);
 	
 	//seuiller l'image verte
-	selectWindow("6_classes_RGB.tif (green)");	
+	selectWindow("image (green)");	
 	getHistogram (level,histo,256);
 
 	omega1 = 0;
@@ -122,7 +124,7 @@ macro "multiSeuillage" {
 	classe4Value = 256/6*4;
 	classe5Value = 256/6*5;
 	classe6Value = 256;
-	selectWindow("6_classes_RGB.tif (blue)");
+	selectWindow("image (blue)");
 	run("Duplicate...", "title=seuillee");
 	W = getWidth();
 	H = getHeight();
@@ -130,7 +132,7 @@ macro "multiSeuillage" {
 	rouge=newArray(W*H);
 	vert=newArray(W*H);
 	// sauvegarde dans les tableau pour que ca aille plus vite
-	selectWindow("6_classes_RGB.tif (red)");
+	selectWindow("image (red)");
 	for (x = 0 ; x < W ; x++){
 		for (y = 0 ; y < H ; y++){
 			rouge[(x*W)+y] = getPixel(x,y);
@@ -138,7 +140,7 @@ macro "multiSeuillage" {
 		
 	}
 
-	selectWindow("6_classes_RGB.tif (green)");
+	selectWindow("image (green)");
 	for (x = 0 ; x < W ; x++){
 		for (y = 0 ; y < H ; y++){
 			vert[(x*W)+y] = getPixel(x,y);
