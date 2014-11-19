@@ -1,3 +1,20 @@
+**Couverture
+
+* INTRO *
+Le but du TP est de decouvrir l'analyse par composante principale et son utilisation pour la segmentation d'une image couleur
+
+* SEGMENTATION PAR ANALYSE D'HISTOGRAMME *
+Nous disposons de l'image suivante :
+--3_classes_RGB.tif--
+
+Afin de segmenter celle-ci, nous allons utiliser l'analyse d'histogramme comme nous l'avons fait précédemment mais pour 3 classes.
+Nous obtennons le résultat suivant :
+--Segmentation_3_classes_RGB_incorrecte--
+
+Comme nous pouvons le voir, l'image est mal segmentée, les pixels du haut de l'image et de la zone centrale sont confondus dans la meme zone.
+
+* ANALYSE EN COMPOSANTES PRINCIPALES *
+
 La segmentation de '3_classes_RGB.tif' n'est pas correcte sur la classe intermédiaire
 
 On choisi celle avec la variance la plus elevees et on fait otsu ac 3 classes

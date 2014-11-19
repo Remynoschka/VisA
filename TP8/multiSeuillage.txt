@@ -172,7 +172,7 @@ macro "multiSeuillage" {
 				} else {
 					// test si zone2
 					if (vert[(x*H)+y] < seuil2){
-						setPixel(x,y, classe1Value);
+						setPixel(x,y, classe2Value);
 					} else {
 						setPixel(x,y, classe3Value);
 					}

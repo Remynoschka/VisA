@@ -168,13 +168,13 @@ macro "multiSeuillage" {
 			} else {				
 				//test si zone 1
 				if (vert[(x*H)+y] < seuil1){
-					setPixel(x,y, classe4Value);
+					setPixel(x,y, classe1Value);
 				} else {
 					// test si zone2
 					if (vert[(x*H)+y] < seuil2){
-						setPixel(x,y, classe5Value);
+						setPixel(x,y, classe1Value);
 					} else {
-						setPixel(x,y, classe6Value);
+						setPixel(x,y, classe3Value);
 					}
 				}
 			}
