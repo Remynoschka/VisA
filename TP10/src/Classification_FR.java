@@ -410,8 +410,13 @@ public class Classification_FR implements PlugIn {
 
 			double performIndex = 0;
 			for (int i = 0; i < nbclasses; i++) {
-				for (int j = 0; i < nbpixels; j++) {
-
+				for (int j = 0; j < nbpixels; j++) {
+//					System.out.println(nbpixels);
+//					System.out.println(Umat[i][j]);
+//					System.out.println(Dmat[i][j]);
+//					System.out.println(Umat[nbclasses][j]);
+//					System.out.println(i+"/"+j);
+//					System.out.println("=====================================");
 					performIndex += (Math.pow(Umat[i][j], m) * Dmat[i][j])
 							+ Umat[nbclasses][j]
 							* (Math.pow(Dmat[i][j], 2) / (nbclasses * nbpixels));
